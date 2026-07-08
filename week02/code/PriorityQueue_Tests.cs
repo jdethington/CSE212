@@ -101,4 +101,17 @@ public class PriorityQueueTests
 
     // Add more test cases as needed below.
 
+    [TestMethod]
+    // Scenario: Create an empty queue.
+    // Expected Result: InvalidOperationException with message "The queue is empty."
+    // Defect(s) Found: Passed. Expected exception was thrown when trying to dequeue from an empty queue.
+    //                  
+    public void TestPriorityQueue_3()
+    {
+        var priorityQueue = new PriorityQueue();
+
+        var ex = Assert.ThrowsException<InvalidOperationException>(() => priorityQueue.Dequeue());
+
+        Assert.AreEqual("The queue is empty.", ex.Message);
+    }
 }
