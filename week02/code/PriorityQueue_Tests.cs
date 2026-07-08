@@ -20,16 +20,6 @@ public class PriorityQueueTests
     // 
     public void TestPriorityQueue_1()
     {
-        // var A = new PriorityItem("A", 1);
-        // var B = new PriorityItem("B", 4);
-        // var C = new PriorityItem("C", 3);
-        // var D = new PriorityItem("D", 2);
-        // var E = new PriorityItem("E", 4);
-        // var F = new PriorityItem("F", 1);
-        // var G = new PriorityItem("G", 2);
-        // var H = new PriorityItem("H", 3);
-        // var I = new PriorityItem("I", 4);
-        // var J = new PriorityItem("J", 1);
         var A = new PriorityItem("A", 1);
         var B = new PriorityItem("B", 2);
         var C = new PriorityItem("C", 3);
@@ -61,19 +51,54 @@ public class PriorityQueueTests
             items.Add(item);
         }
         Console.Write($"{string.Join(", ", items)} ");
+        Assert.AreEqual("J, I, H, G, F, E, D, C, B, A", string.Join(", ", items));
+
         // Assert.Fail("Implement the test case and then remove this.");
     }
 
 
     [TestMethod]
-    // Scenario: 
-    // Expected Result: 
-    // Defect(s) Found: 
+    // Scenario: Create a queue with the following items and priorities: A (1), B (4), C (3), D (2), E (4), F (1), G (2), H (3), I (4), J (1)
+    // Run until the queue is empty.
+    // Expected Result: Items dequeued in order of priority (B, E, I, C, H, D, G, A, F, J)
+    // Defect(s) Found: Assert.AreEqual failed. Expected:<B, E, I, C, H, D, G, A, F, J>. Actual:<I, E, B, H, C, G, D, J, F, A>.
+    //                  Items are not being removed in the correct order.  Highest priority items are first, but the order is reverse of what is expected.
     public void TestPriorityQueue_2()
     {
+        var A = new PriorityItem("A", 1);
+        var B = new PriorityItem("B", 4);
+        var C = new PriorityItem("C", 3);
+        var D = new PriorityItem("D", 2);
+        var E = new PriorityItem("E", 4);
+        var F = new PriorityItem("F", 1);
+        var G = new PriorityItem("G", 2);
+        var H = new PriorityItem("H", 3);
+        var I = new PriorityItem("I", 4);
+        var J = new PriorityItem("J", 1);
+
+        List<string> items = new List<string>();
+
         var priorityQueue = new PriorityQueue();
-        Assert.Fail("Implement the test case and then remove this.");
+        priorityQueue.Enqueue(A.Value, A.Priority);
+        priorityQueue.Enqueue(B.Value, B.Priority);
+        priorityQueue.Enqueue(C.Value, C.Priority);
+        priorityQueue.Enqueue(D.Value, D.Priority);
+        priorityQueue.Enqueue(E.Value, E.Priority);
+        priorityQueue.Enqueue(F.Value, F.Priority);
+        priorityQueue.Enqueue(G.Value, G.Priority);
+        priorityQueue.Enqueue(H.Value, H.Priority);
+        priorityQueue.Enqueue(I.Value, I.Priority);
+        priorityQueue.Enqueue(J.Value, J.Priority);
+
+        for (int i = 0; i < 10; i++)
+        {
+            var item = priorityQueue.Dequeue();
+            items.Add(item);
+        }
+        Console.Write($"{string.Join(", ", items)} ");
+        Assert.AreEqual("B, E, I, C, H, D, G, A, F, J", string.Join(", ", items));
     }
 
     // Add more test cases as needed below.
+
 }
