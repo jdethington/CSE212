@@ -17,8 +17,8 @@
 public class Maze
 {
     private readonly Dictionary<ValueTuple<int, int>, bool[]> _mazeMap;
-    private int _currX = 1;
-    private int _currY = 1;
+    private int _currX = 1; // left - right
+    private int _currY = 1; // up - down
 
     public Maze(Dictionary<ValueTuple<int, int>, bool[]> mazeMap)
     {
@@ -33,6 +33,19 @@ public class Maze
     public void MoveLeft()
     {
         // FILL IN CODE
+        var currentPos = (_currX, _currY);
+
+        // if (!_mazeMap.ContainsKey(currentPos))
+        // {
+        //     throw new InvalidOperationException("Can't go that way!");            
+        // }
+
+        bool moveL = _mazeMap[currentPos][0];
+
+        if (!moveL)
+            throw new InvalidOperationException("Can't go that way!");
+
+        _currX--;
     }
 
     /// <summary>
@@ -42,6 +55,15 @@ public class Maze
     public void MoveRight()
     {
         // FILL IN CODE
+        var currentPos = (_currX, _currY);
+
+        bool moveR = _mazeMap[currentPos][1];
+
+        if (!moveR)
+            throw new InvalidOperationException("Can't go that way!");
+
+        _currX++;
+
     }
 
     /// <summary>
@@ -51,6 +73,15 @@ public class Maze
     public void MoveUp()
     {
         // FILL IN CODE
+        var currentPos = (_currX, _currY);
+
+        bool moveU = _mazeMap[currentPos][2];
+
+        if (!moveU)
+            throw new InvalidOperationException("Can't go that way!");
+            
+        _currY--;
+
     }
 
     /// <summary>
@@ -60,6 +91,15 @@ public class Maze
     public void MoveDown()
     {
         // FILL IN CODE
+        var currentPos = (_currX, _currY);
+
+        bool moveD = _mazeMap[currentPos][3];
+
+        if (!moveD)
+            throw new InvalidOperationException("Can't go that way!");
+            
+        _currY++;
+
     }
 
     public string GetStatus()

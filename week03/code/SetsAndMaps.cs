@@ -22,7 +22,22 @@ public static class SetsAndMaps
     public static string[] FindPairs(string[] words)
     {
         // TODO Problem 1 - ADD YOUR CODE HERE
-        return [];
+        var seen = new HashSet<string>();
+        var result  = new List<string>();
+
+        foreach (string word in words)
+        {
+            char[] chars = word.ToCharArray();
+            Array.Reverse(chars);
+            string reverse = new string(chars);
+            if (seen.Contains(reverse))
+            {
+                    result.Add($"{word} & {reverse}");
+            }
+            seen.Add(word);
+        }
+
+        return result.ToArray();
     }
 
     /// <summary>
@@ -43,6 +58,13 @@ public static class SetsAndMaps
         {
             var fields = line.Split(",");
             // TODO Problem 2 - ADD YOUR CODE HERE
+            var degree = fields[3];
+            if (degrees.ContainsKey(degree))
+            {
+                degrees[degree] += 1;
+            } else
+                degrees[degree] = 1;
+
         }
 
         return degrees;
@@ -67,12 +89,38 @@ public static class SetsAndMaps
     public static bool IsAnagram(string word1, string word2)
     {
         // TODO Problem 3 - ADD YOUR CODE HERE
-        return false;
+        string word1Clean = word1.Replace(" ", "").ToLower();
+        string word2Clean = word2.Replace(" ", "").ToLower();
+        if (word1Clean.Length != word2Clean.Length)
+            return false;
+        
+        var anagram1 = new Dictionary<char, int>();
+        // var anagram2 = new Dictionary<char, int>();
+        foreach (char letter in word1Clean)
+        {
+            if (anagram1.ContainsKey(letter))
+                anagram1[letter]++;
+            else
+                anagram1[letter] = 1;
+        }
+        foreach (char letter in word2Clean)
+        {
+            if (anagram1.ContainsKey(letter))
+                anagram1[letter]--;
+            else
+                return false;
+        }
+        foreach (var count in anagram1.Values)
+        {
+        if (count != 0)
+            return false;
+        }
+            return true;
     }
 
     /// <summary>
     /// This function will read JSON (Javascript Object Notation) data from the 
-    /// United States Geological Service (USGS) consisting of earthquake data.
+    /// United States Geological Service (U.S.G.S.) consisting of earthquake data.
     /// The data will include all earthquakes in the current day.
     /// 
     /// JSON data is organized into a dictionary. After reading the data using
@@ -99,8 +147,20 @@ public static class SetsAndMaps
         // TODO Problem 5:
         // 1. Add code in FeatureCollection.cs to describe the JSON using classes and properties 
         // on those classes so that the call to Deserialize above works properly.
-        // 2. Add code below to create a string out each place a earthquake has happened today and its magitude.
+        // 2. Add code below to create a string out each place a earthquake has happened today and its magnitude.
         // 3. Return an array of these string descriptions.
-        return [];
+        var summaries = new List<string>();
+
+
+        foreach (var feature in featureCollection.Features)
+        {
+            string place = feature.Properties.Place ?? "Unknown location";
+            double magnitude = feature.Properties.Mag;
+
+            string description = $"{place} - Mag {magnitude}";
+            summaries.Add(description);
+        }
+
+        return summaries.ToArray();
     }
 }
